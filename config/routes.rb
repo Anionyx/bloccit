@@ -1,5 +1,6 @@
 Bloccit::Application.routes.draw do
   
+  get "posts/index"
  resources :posts, only: [:index]
   resources :topics do
     resources :posts, except: [:index], controller: 'topics/posts' do
@@ -11,7 +12,7 @@ Bloccit::Application.routes.draw do
   end
 
   devise_for :users
-  resources :users, only: [:show, :update]
+  resources :users, only: [:show, :index, :update]
 
   get 'about' => 'welcome#about'
 
