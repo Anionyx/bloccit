@@ -11,7 +11,7 @@ Bloccit::Application.routes.draw do
   end
 
   devise_for :users
-  resources :users, only: [:show, :index, :update]
+  resources :users, only: [:show, :update]
 
   get 'about' => 'welcome#about'
 
