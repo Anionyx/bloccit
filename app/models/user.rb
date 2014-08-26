@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
     order('rank DESC')
   end
 
-  private
+ 
 
   def role?(base_role)
     role == base_role.to_s

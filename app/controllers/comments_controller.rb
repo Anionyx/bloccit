@@ -1,11 +1,9 @@
 class CommentsController < ApplicationController
   respond_to :html, :js
-  def index
-  end
 
-   def create
-    @topic = Topic.find(params[:topic_id])
-    @post = @topic.posts.find(params[:post_id])
+  def create
+    @topic = Topic.find( params[:topic_id] )
+    @post = @topic.posts.find( params[:post_id] )
     @comments = @post.comments
 
     @comment = current_user.comments.build( comment_params )
@@ -25,7 +23,23 @@ class CommentsController < ApplicationController
     end
   end
 
-  ...
+  def destroy
+    @topic = Topic.find(params[:topic_id])
+    @post = @topic.posts.find(params[:post_id])
+
+    @comment = @post.comments.find(params[:id])
+    authorize @comment
+
+    if @comment.destroy
+      flash[:notice] = "Comment was removed."
+    else
+      flash[:error] = "Comment couldn't be deleted. Try again."
+    end
+
+    respond_with(@comment) do |f|
+      f.html { redirect_to [@topic, @post] }
+    end
+  end
 
   private
 
@@ -36,21 +50,4 @@ class CommentsController < ApplicationController
     )
   end
 
-  def destroy
-    @topic = Topic.find(params[:topic_id])
-    @post = @topic.posts.find(params[:post_id])
-
-    @comment = @post.comments.find(params[:id])
-    authorize @comment
-
-    if @comment.destroy
-      flash[:notice] = "Comment was removed."
-      redirect_to [@topic, @post]
-    else
-      flash[:error] = "Comment couldn't be deleted. Try again."
-    end
-
-    repsond_with(@comment) do |f|
-      f.html { redirect_to [@topic, @post] }
-    end
 end

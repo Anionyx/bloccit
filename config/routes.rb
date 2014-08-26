@@ -1,7 +1,6 @@
 Bloccit::Application.routes.draw do
   
-  get "posts/index"
- resources :posts, only: [:index]
+  resources :posts, only: [:index]
   resources :topics do
     resources :posts, except: [:index], controller: 'topics/posts' do
       resources :comments, only: [:create, :destroy]
